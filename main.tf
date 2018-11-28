@@ -52,6 +52,7 @@ resource "aws_iam_role_policy" "autoscaler" {
   name   = "${module.default_label.id}${var.delimiter}autoscaler${var.delimiter}dynamodb"
   role   = "${join("", aws_iam_role.autoscaler.*.id)}"
   policy = "${data.aws_iam_policy_document.autoscaler.json}"
+  depends_on = ["aws_iam_role.autoscaler"]
 }
 
 data "aws_iam_policy_document" "autoscaler_cloudwatch" {
@@ -75,6 +76,7 @@ resource "aws_iam_role_policy" "autoscaler_cloudwatch" {
   name   = "${module.default_label.id}${var.delimiter}autoscaler${var.delimiter}cloudwatch"
   role   = "${join("", aws_iam_role.autoscaler.*.id)}"
   policy = "${data.aws_iam_policy_document.autoscaler_cloudwatch.json}"
+  depends_on = ["aws_iam_role.autoscaler"]
 }
 
 resource "aws_appautoscaling_target" "read_target" {
